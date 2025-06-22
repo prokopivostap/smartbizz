@@ -22,17 +22,14 @@ namespace SmartBiz.Tests
         [Fact]
         public void Index_ReturnsViewWithItems()
         {
-            // Arrange
             var expectedItems = new List<InventoryDto> {
                 new InventoryDto { Id = 1, ProductName = "Item1", Quantity = 10 }
             };
 
             _mockService.Setup(s => s.GetAllItems(null)).Returns(expectedItems);
 
-            // Act
             var result = _controller.Index(null) as ViewResult;
 
-            // Assert
             Assert.NotNull(result);
             var model = Assert.IsAssignableFrom<IEnumerable<InventoryDto>>(result.Model);
             Assert.Single(model);

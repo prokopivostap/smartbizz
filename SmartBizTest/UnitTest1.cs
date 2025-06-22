@@ -24,10 +24,8 @@ namespace SmartBiz.Tests
         [Fact]
         public void AddCustomer_ShouldAddSuccessfully()
         {
-            // ...
+            
         }
-
-        // ✅ Додай нижче нові тести (НЕ всередину іншого методу!)
         [Fact]
         public void AddCustomer_ShouldNotAdd_WhenMissingRequiredFields()
         {
@@ -72,7 +70,6 @@ namespace SmartBiz.Tests
                 PhoneNumber = "000"
             };
 
-            // Якщо твій метод не викидає виключення — цей тест треба адаптувати
             Assert.Throws<KeyNotFoundException>(() => repo.UpdateCustomer(dto));
         }
 
