@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container py-5"> 
+    <div class="text-center mb-5"> 
+        <h1 class="display-4">👋 Welcome to the Control Panel</h1> 
+        <p class="lead">Choose a section to manage</p> 
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+        <div class="col">
+            <a asp-controller="Customer" asp-action="Index" class="btn btn-outline-primary btn-lg w-100 d-flex align-items-center justify-content-center gap-2 shadow-sm">
+                <i class="bi bi-person-lines-fill"></i> Customer
+            </a>
+        </div>
+        <div class="col">
+            <a asp-controller="Finance" asp-action="Index" class="btn btn-outline-success btn-lg w-100 d-flex align-items-center justify-content-center gap-2 shadow-sm">
+                <i class="bi bi-cash-stack"></i> Finance
+            </a>
+        </div>
+        @if(User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <div class="col">
+                <a asp-controller="User" asp-action="Index" class="btn btn-outline-info btn-lg w-100 d-flex align-items-center justify-content-center gap-2 shadow-sm">
+                    <i class="bi bi-people-fill"></i> User
+                </a>
+            </div>
+        }
+        <div class="col">
+            <a asp-controller="Inventory" asp-action="Index" class="btn btn-outline-warning btn-lg w-100 d-flex align-items-center justify-content-center gap-2 shadow-sm">
+                <i class="bi bi-box-seam"></i> Inventory
+            </a>
+        </div>
+        <div class="col">
+            <a asp-controller="Order" asp-action="Index" class="btn btn-outline-danger btn-lg w-100 d-flex align-items-center justify-content-center gap-2 shadow-sm">
+                <i class="bi bi-cart-check"></i> Order
+            </a>
+        </div>
+    </div>
+</div>

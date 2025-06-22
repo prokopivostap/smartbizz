@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Продажі";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Замовлення</h2>
+
+    
+    <form asp-controller="Order" asp-action="Add" method="post" class="row g-2 mb-4">
+        <div class="col">
+            <input name="CustomerName" class="form-control" placeholder="Ім'я клієнта" required />
+        </div>
+        <div class="col">
+            <input type="date" name="OrderDate" class="form-control" required />
+        </div>
+        <div class="col">
+            <input type="number" step="0.01" name="TotalAmount" class="form-control" placeholder="Сума" min="0" required />
+        </div>
+        <div class="col">
+            <input name="Status" class="form-control" placeholder="Статус" required />
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-success">Додати</button>
+        </div>
+    </form>
+
+    
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Ім'я</th>
+                <th>Дата</th>
+                <th>Сума</th>
+                <th>Статус</th>
+                <th colspan="2">Дії</th> 
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <form asp-controller="Order" asp-action="Update" method="post">
+                        <input type="hidden" name="Id" value="@order.Id" />
+                        <td class="align-middle">@order.Id</td>
+                        <td>
+                            <input name="CustomerName" value="@order.CustomerName" class="form-control" required />
+                        </td>
+                        <td>
+                            <input type="date" name="OrderDate" value="@order.OrderDate.ToString("yyyy-MM-dd")" class="form-control" required />
+                        </td>
+                        <td>
+                            <input type="number" step="0.01" name="TotalAmount" value="@order.TotalAmount" class="form-control" min="0" required />
+                        </td>
+                        <td>
+                            <input name="Status" value="@order.Status" class="form-control" required />
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-primary btn-sm">Зберегти</button>
+                        </td>
+                    </form>
+                    <td>
+                        <form asp-controller="Order" asp-action="Delete" method="post" onsubmit="return confirm('Ви впевнені?');">
+                            <input type="hidden" name="id" value="@order.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Видалити</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

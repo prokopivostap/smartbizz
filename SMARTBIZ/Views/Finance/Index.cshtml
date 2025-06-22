@@ -1,0 +1,78 @@
+﻿@using SmartBiz.Application.DTO
+@model List<FinanceDTO>
+
+@{
+    ViewData["Title"] = "Фінанси";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Фінанси</h2>
+
+    <!-- Додавання нового запису -->
+    <form asp-controller="Finance" asp-action="AddInline" method="post" class="row g-2 mb-4">
+        <div class="col">
+            <input name="Data" type="date" class="form-control" required />
+        </div>
+        <div class="col">
+            <input name="Income" type="number" step="0.01" class="form-control" placeholder="Сума" required />
+        </div>
+        <div class="col">
+            <select name="Type" class="form-select">
+                <option value="Дохід">Дохід</option>
+                <option value="Витрата">Витрата</option>
+            </select>
+        </div>
+        <div class="col">
+            <input name="Records" class="form-control" placeholder="Опис" />
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-success">Додати</button>
+        </div>
+    </form>
+
+    <!-- Таблиця -->
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Дата</th>
+                <th>Сума</th>
+                <th>Тип</th>
+                <th>Опис</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var f in Model)
+    {
+        <tr>
+            <form asp-controller="Finance" asp-action="UpdateInline" method="post">
+                <input type="hidden" name="Id" value="@f.Id" />
+                <td>
+                    <input name="Data" type="date" class="form-control" value="@f.Data.ToString("yyyy-MM-dd")" required />
+                </td>
+                <td>
+                    <input name="Income" type="number" step="0.01" class="form-control" value="@f.Income" required />
+                </td>
+                <td>
+                    <select name="Type" class="form-select">
+                        <option value="Дохід" selected="@(f.Type == "Дохід" ? "selected" : null)">Дохід</option>
+                        <option value="Витрата" selected="@(f.Type == "Витрата" ? "selected" : null)">Витрата</option>
+                    </select>
+                </td>
+                <td>
+                    <input name="Records" class="form-control" value="@f.Records" />
+                </td>
+                <td class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary btn-sm">Зберегти</button>
+                </td>
+            </form>
+            <td class="d-flex gap-2">
+                <form asp-controller="Finance" asp-action="Delete" method="post" onsubmit="return confirm('Ви впевнені?');">
+                    <input type="hidden" name="id" value="@f.Id" />
+                    <button type="submit" class="btn btn-danger btn-sm">Видалити</button>
+                </form>
+            </td>
+        </tr>
+    }
+</tbody>

@@ -1,0 +1,74 @@
+﻿@model IEnumerable<SmartBiz.Application.DTO.CustomerDto>
+@{
+    ViewData["Title"] = "Клієнти";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4"> 
+    <h2 class="mb-4 text-center">🧑‍🤝‍🧑 Список клієнтів</h2>
+<form asp-controller="Customer" asp-action="AddInline" method="post" class="row row-cols-1 row-cols-md-6 g-2 mb-4 align-items-end">
+    <div class="col">
+        <input name="FirstName" class="form-control" placeholder="Ім’я" required />
+    </div>
+    <div class="col">
+        <input name="LastName" class="form-control" placeholder="Прізвище" required />
+    </div>
+    <div class="col">
+        <input name="PhoneNumber" class="form-control" placeholder="Телефон" required />
+    </div>
+    <div class="col">
+        <input name="Email" class="form-control" placeholder="Email" required />
+    </div>
+    <div class="col">
+        <select name="LoyaltyProgram" class="form-select">
+            <option>Базова</option>
+            <option>Срібна</option>
+            <option>Золота</option>
+        </select>
+    </div>
+    <div class="col">
+        <button type="submit" class="btn btn-success w-100">
+            <i class="bi bi-plus-circle"></i> Додати
+        </button>
+    </div>
+</form>
+
+<table class="table table-hover align-middle shadow-sm">
+    <thead class="table-primary text-center">
+        <tr>
+            <th>Ім’я</th>
+            <th>Прізвище</th>
+            <th>Телефон</th>
+            <th>Email</th>
+            <th>Програма лояльності</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <form asp-controller="Customer" asp-action="UpdateInline" method="post">
+                    <input type="hidden" name="Id" value="@c.Id" />
+                    <td><input name="FirstName" class="form-control" value="@c.FirstName" /></td>
+                    <td><input name="LastName" class="form-control" value="@c.LastName" /></td>
+                    <td><input name="PhoneNumber" class="form-control" value="@c.PhoneNumber" /></td>
+                    <td><input name="Email" class="form-control" value="@c.Email" /></td>
+                    <td class="text-center">
+                        <div class="d-flex gap-1 justify-content-center">
+                            <button type="submit" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-save"></i>
+                            </button>
+                        </div>
+                </form>
+                <form asp-controller="Customer" asp-action="Delete" method="post" onsubmit="return confirm('Ви впевнені?');">
+                    <input type="hidden" name="id" value="@c.Id" />
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </form>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
