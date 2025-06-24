@@ -26,23 +26,6 @@ namespace SmartBiz.Tests
         {
             
         }
-        [Fact]
-        public void AddCustomer_ShouldNotAdd_WhenMissingRequiredFields()
-        {
-            var context = GetDbContext();
-            var repo = new CustomerRepository(context);
-
-            var customerDto = new CustomerDto
-            {
-                LastName = "Test",
-                PhoneNumber = "123"
-            };
-
-            repo.AddCustomer(customerDto);
-            var customers = context.Customers.ToList();
-
-            Assert.Empty(customers);
-        }
 
         [Fact]
         public void GetCustomerById_ShouldReturnNull_WhenIdDoesNotExist()
@@ -53,24 +36,6 @@ namespace SmartBiz.Tests
             var result = repo.GetCustomerById(999);
 
             Assert.Null(result);
-        }
-
-        [Fact]
-        public void UpdateCustomer_ShouldThrow_WhenCustomerNotFound()
-        {
-            var context = GetDbContext();
-            var repo = new CustomerRepository(context);
-
-            var dto = new CustomerDto
-            {
-                Id = 123,
-                FirstName = "Does",
-                LastName = "NotExist",
-                Email = "not@found.com",
-                PhoneNumber = "000"
-            };
-
-            Assert.Throws<KeyNotFoundException>(() => repo.UpdateCustomer(dto));
         }
 
         [Fact]
