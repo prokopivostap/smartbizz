@@ -86,7 +86,7 @@ namespace SmartBiz.Infrastructure.Repositories
             var order = _context.Orders.Find(id);
             if (order == null) return;
 
-            // Можна реалізувати логіку: наприклад, змінювати статус циклічно
+            
             order.Status = order.Status == "Очікує" ? "Виконано" : "Очікує";
 
             _context.SaveChanges();
