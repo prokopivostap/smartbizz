@@ -7,5 +7,7 @@
         public decimal Income { get; set; }
         public string Type { get; set; }
         public string Records { get; set; }
+        public string Currency { get; set; }
+        
     }
 }

@@ -22,7 +22,8 @@ namespace SmartBiz.Infrastructure.Repositories
                 Data = DateTime.SpecifyKind(recordDto.Data, DateTimeKind.Utc),
                 Income = (int)recordDto.Income,
                 Type = recordDto.Type,
-                Records = recordDto.Records
+                Records = recordDto.Records,
+                Currency = recordDto.Currency
             };
             
             _context.FinancialRecords.Add(record);
@@ -39,7 +40,8 @@ namespace SmartBiz.Infrastructure.Repositories
                 Data = record.Data,
                 Income = record.Income,
                 Type = record.Type,
-                Records = record.Records
+                Records = record.Records,
+                Currency = record.Currency
             };
         }
 
@@ -51,7 +53,8 @@ namespace SmartBiz.Infrastructure.Repositories
                 Data = record.Data,
                 Income = record.Income,
                 Type = record.Type,
-                Records = record.Records
+                Records = record.Records,
+                Currency = record.Currency
             }).ToList();
         }
 
@@ -76,6 +79,7 @@ namespace SmartBiz.Infrastructure.Repositories
             record.Income = (int)item.Income;
             record.Type = item.Type;
             record.Records = item.Records;
+            record.Currency = item.Currency;
 
             _context.SaveChanges();
         }
