@@ -23,6 +23,7 @@ namespace SmartBiz.Infrastructure.Repositories
                 LastName = dto.LastName,
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
+                Age = dto.Age 
             };
 
             _context.Customers.Add(customer);
@@ -49,7 +50,7 @@ namespace SmartBiz.Infrastructure.Repositories
                     LastName = c.LastName,
                     Email = c.Email,
                     PhoneNumber = c.PhoneNumber,
-
+                    Age = c.Age 
                 })
                 .ToList();
         }
@@ -64,6 +65,7 @@ namespace SmartBiz.Infrastructure.Repositories
                 LastName = c.LastName,
                 Email = c.Email,
                 PhoneNumber = c.PhoneNumber,
+                Age = c.Age 
             };
         }
 
@@ -76,10 +78,10 @@ namespace SmartBiz.Infrastructure.Repositories
                 customer.LastName = dto.LastName;
                 customer.Email = dto.Email;
                 customer.PhoneNumber = dto.PhoneNumber;
+                customer.Age = dto.Age; 
 
                 _context.SaveChanges();
             }
         }
     }
 }
-

@@ -25,6 +25,9 @@ namespace SmartBiz.Web.Controllers
         [HttpPost]
         public IActionResult AddInline(CustomerDto dto)
         {
+            if (!ModelState.IsValid)
+                return RedirectToAction(nameof(Index));
+
             _customerService.AddCustomer(dto);
             return RedirectToAction(nameof(Index));
         }
@@ -32,6 +35,9 @@ namespace SmartBiz.Web.Controllers
         [HttpPost]
         public IActionResult UpdateInline(CustomerDto dto)
         {
+            if (!ModelState.IsValid)
+                return RedirectToAction(nameof(Index));
+
             _customerService.UpdateCustomer(dto);
             return RedirectToAction(nameof(Index));
         }
@@ -43,4 +49,4 @@ namespace SmartBiz.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
     }
-} 
+}
