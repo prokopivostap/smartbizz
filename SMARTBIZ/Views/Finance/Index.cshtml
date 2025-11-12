@@ -7,42 +7,52 @@
 }
 
 <div class="container mt-4">
-    <h2 class="mb-4">Фінанси</h2>
+    <h2 class="mb-4 text-center">💰 Фінансові записи</h2>
 
-    
-    <form asp-controller="Finance" asp-action="AddInline" method="post" class="row g-2 mb-4">
+    <form asp-controller="Finance" asp-action="AddInline" method="post" class="row g-2 mb-4 align-items-end">
         <div class="col">
+            <label class="form-label">Дата</label>
             <input name="Data" type="date" class="form-control" required />
         </div>
         <div class="col">
+            <label class="form-label">Сума</label>
             <input name="Income" type="number" step="0.01" class="form-control" placeholder="Сума" required />
         </div>
         <div class="col">
+            <label class="form-label">Тип</label>
             <select name="Type" class="form-select">
                 <option value="Дохід">Дохід</option>
                 <option value="Витрата">Витрата</option>
             </select>
         </div>
         <div class="col">
+            <label class="form-label">Опис</label>
             <input name="Records" class="form-control" placeholder="Опис" />
         </div>
         <div class="col">
-            <input name="Currency" class="form-control" placeholder="Валюта (наприклад, USD)" required />
+            <label class="form-label">Валюта</label>
+            <input name="Currency" class="form-control" placeholder="USD / EUR / UAH" required />
+        </div>
+        <div class="col">
+            <label class="form-label">Призначення</label>
+            <input name="Purpose" class="form-control" placeholder="Призначення платежу" required />
         </div>
         <div class="col-auto">
-            <button type="submit" class="btn btn-success">Додати</button>
+            <button type="submit" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Додати
+            </button>
         </div>
     </form>
 
-    
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
+    <table class="table table-hover align-middle shadow-sm">
+        <thead class="table-dark text-center">
             <tr>
                 <th>Дата</th>
                 <th>Сума</th>
                 <th>Тип</th>
                 <th>Опис</th>
                 <th>Валюта</th>
+                <th>Призначення</th>
                 <th>Дії</th>
             </tr>
         </thead>
@@ -50,7 +60,7 @@
             @foreach (var f in Model)
             {
                 <tr>
-                    <form asp-controller="Finance" asp-action="UpdateInline" method="post">
+                    <form asp-controller="Finance" asp-action="UpdateInline" method="post" class="d-flex align-items-center">
                         <input type="hidden" name="Id" value="@f.Id" />
                         <td>
                             <input name="Data" type="date" class="form-control" value="@f.Data.ToString("yyyy-MM-dd")" required />
@@ -70,16 +80,21 @@
                         <td>
                             <input name="Currency" class="form-control" value="@f.Currency" required />
                         </td>
-                        <td class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary btn-sm">Зберегти</button>
+                        <td>
+                            <input name="Purpose" class="form-control" value="@f.Purpose" required />
+                        </td>
+                        <td class="text-center d-flex gap-2 justify-content-center">
+                            <button type="submit" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-save"></i>
+                            </button>
+                            <form asp-controller="Finance" asp-action="Delete" method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?');">
+                                <input type="hidden" name="id" value="@f.Id" />
+                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </form>
-                    <td class="d-flex gap-2">
-                        <form asp-controller="Finance" asp-action="Delete" method="post" onsubmit="return confirm('Ви впевнені?');">
-                            <input type="hidden" name="id" value="@f.Id" />
-                            <button type="submit" class="btn btn-danger btn-sm">Видалити</button>
-                        </form>
-                    </td>
                 </tr>
             }
         </tbody>

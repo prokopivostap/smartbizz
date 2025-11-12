@@ -23,7 +23,8 @@ namespace SmartBiz.Infrastructure.Repositories
                 Income = (int)recordDto.Income,
                 Type = recordDto.Type,
                 Records = recordDto.Records,
-                Currency = recordDto.Currency
+                Currency = recordDto.Currency,
+                Purpose = recordDto.Purpose
             };
             
             _context.FinancialRecords.Add(record);
@@ -41,7 +42,8 @@ namespace SmartBiz.Infrastructure.Repositories
                 Income = record.Income,
                 Type = record.Type,
                 Records = record.Records,
-                Currency = record.Currency
+                Currency = record.Currency,
+                Purpose = record.Purpose
             };
         }
 
@@ -54,7 +56,8 @@ namespace SmartBiz.Infrastructure.Repositories
                 Income = record.Income,
                 Type = record.Type,
                 Records = record.Records,
-                Currency = record.Currency
+                Currency = record.Currency,
+                Purpose = record.Purpose
             }).ToList();
         }
 
@@ -80,6 +83,7 @@ namespace SmartBiz.Infrastructure.Repositories
             record.Type = item.Type;
             record.Records = item.Records;
             record.Currency = item.Currency;
+            record.Purpose = item.Purpose;
 
             _context.SaveChanges();
         }

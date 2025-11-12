@@ -8,6 +8,7 @@
         public string Type { get; set; }
         public string Records { get; set; }
         public string Currency { get; set; }
+        public string Purpose { get; set; }
         
     }
 }
