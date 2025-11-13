@@ -9,6 +9,6 @@
         public string Records { get; set; }
         public string Currency { get; set; }
         public string Purpose { get; set; }
-        
+        public decimal Sum { get; set; }
     }
 }

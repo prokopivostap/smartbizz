@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using SmartBiz.Application.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +17,22 @@ namespace SmartBiz.Web.Controllers
 
         public IActionResult Index()
         {
-            return View(_financialRecordRepository.GetAllRecords());
+            
+            var records = _financialRecordRepository.GetAllRecords().ToList();
+
+            
+            var sumByPurpose = records
+                .GroupBy(r => r.Purpose)
+                .Select(g => new
+                {
+                    Purpose = g.Key,
+                    Total = g.First().Sum 
+                })
+                .ToList();
+
+            ViewBag.SumByPurpose = sumByPurpose;
+
+            return View(records);
         }
 
         [HttpPost]

@@ -11,4 +11,5 @@ public class FinancialRecord
 
     public string Currency { get; set; }
     public string Purpose { get; set; }
+    public decimal Sum { get; set; }
 }

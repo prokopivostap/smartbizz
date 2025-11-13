@@ -53,6 +53,7 @@
                 <th>Опис</th>
                 <th>Валюта</th>
                 <th>Призначення</th>
+                <th>Загальна сума</th> 
                 <th>Дії</th>
             </tr>
         </thead>
@@ -83,6 +84,9 @@
                         <td>
                             <input name="Purpose" class="form-control" value="@f.Purpose" required />
                         </td>
+                        <td class="text-center">
+                            <span class="fw-bold">@f.Sum</span> 
+                        </td>
                         <td class="text-center d-flex gap-2 justify-content-center">
                             <button type="submit" class="btn btn-outline-primary btn-sm">
                                 <i class="bi bi-save"></i>
@@ -99,4 +103,26 @@
             }
         </tbody>
     </table>
+
+    
+    <div class="mt-5">
+        <h4> Підсумок за призначеннями:</h4>
+        <table class="table table-bordered text-center w-75 mx-auto mt-3">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Призначення</th>
+                    <th>Загальна сума</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.SumByPurpose)
+                {
+                    <tr>
+                        <td>@item.Purpose</td>
+                        <td class="fw-bold">@item.Total</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

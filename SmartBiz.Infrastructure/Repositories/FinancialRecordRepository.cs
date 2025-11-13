@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System; 
+using System.Collections.Generic;
 using System.Linq;
 using SmartBiz.Domain;
 using SmartBiz.Application;
@@ -24,11 +25,15 @@ namespace SmartBiz.Infrastructure.Repositories
                 Type = recordDto.Type,
                 Records = recordDto.Records,
                 Currency = recordDto.Currency,
-                Purpose = recordDto.Purpose
+                Purpose = recordDto.Purpose,
+                Sum = 0 
             };
-            
+
             _context.FinancialRecords.Add(record);
             _context.SaveChanges();
+
+            
+            UpdateSumsByPurpose();
         }
 
         public FinanceDTO GetRecordById(int id)
@@ -38,17 +43,22 @@ namespace SmartBiz.Infrastructure.Repositories
 
             return new FinanceDTO
             {
+                Id = record.Id, 
                 Data = record.Data,
                 Income = record.Income,
                 Type = record.Type,
                 Records = record.Records,
                 Currency = record.Currency,
-                Purpose = record.Purpose
+                Purpose = record.Purpose,
+                Sum = record.Sum 
             };
         }
 
         public IEnumerable<FinanceDTO> GetAllRecords()
         {
+            
+            UpdateSumsByPurpose();
+
             return _context.FinancialRecords.Select(record => new FinanceDTO
             {
                 Id = record.Id,
@@ -57,10 +67,10 @@ namespace SmartBiz.Infrastructure.Repositories
                 Type = record.Type,
                 Records = record.Records,
                 Currency = record.Currency,
-                Purpose = record.Purpose
+                Purpose = record.Purpose,
+                Sum = record.Sum 
             }).ToList();
         }
-
 
         public void DeleteRecord(int id)
         {
@@ -69,13 +79,15 @@ namespace SmartBiz.Infrastructure.Repositories
             {
                 _context.FinancialRecords.Remove(record);
                 _context.SaveChanges();
+
+                
+                UpdateSumsByPurpose();
             }
         }
 
         public void UpdateRecord(FinanceDTO item)
         {
             var record = _context.FinancialRecords.FirstOrDefault(t => t.Id == item.Id);
-
             if (record is null) return;
 
             record.Data = DateTime.SpecifyKind(item.Data, DateTimeKind.Utc);
@@ -84,6 +96,33 @@ namespace SmartBiz.Infrastructure.Repositories
             record.Records = item.Records;
             record.Currency = item.Currency;
             record.Purpose = item.Purpose;
+
+            _context.SaveChanges();
+
+            
+            UpdateSumsByPurpose();
+        }
+
+        
+        private void UpdateSumsByPurpose()
+        {
+            var grouped = _context.FinancialRecords
+                .GroupBy(r => r.Purpose)
+                .Select(g => new
+                {
+                    Purpose = g.Key,
+                    TotalSum = g.Sum(r => (decimal)r.Income)
+                })
+                .ToList();
+
+            foreach (var group in grouped)
+            {
+                var records = _context.FinancialRecords.Where(r => r.Purpose == group.Purpose).ToList();
+                foreach (var record in records)
+                {
+                    record.Sum = group.TotalSum;
+                }
+            }
 
             _context.SaveChanges();
         }
